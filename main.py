@@ -1,37 +1,37 @@
 class Date:
     """
-    Це клас для представлення та роботи з календарною датою
+    This is a class for representing and working with a calendar date
 
-    Артрибути:
-    _day (int): день (1-31 ще залежить від місяця чи року)
-    _month (int): місяць (1-12)
-    _year (int): рік (цілі числа)
+    Attributes:
+    _day (int): (1-31 still depends on the month or year)
+    _month (int): (1-12)
+    _year (int): (integers)
     """
 
     def __init__(self, year: int, month: int, day: int):
         """
-        Ініціалізація об'єкту Date з валідацією
+        Initializing the Date object with validation
 
-        Параметри:
-            day (int): день
-            month (int): місяць
-            year (int): рік
+        Parameters:
+            day (int): day
+            month (int): month
+            year (int): year
 
-        Викликає:
-            TypeError: якщо типи не є цілими числами
-            ValueError: коли значення не відповідають допустимим межам
+        Causes:
+            TypeError: if the types are not integers
+            ValueError: when the values do not meet the permissible limits
         """
         if not all(isinstance(i, int) for i in [year, month, day]):
-            raise TypeError("Параметри повині бути цілими числами")
+            raise TypeError("Parameters must be integers")
 
         if year < 0:
-            raise ValueError("Рік не може бути від'ємним")
+            raise ValueError("The year cannot be negative")
 
         if not 1 <= month <= 12:
-            raise ValueError("Місяць має бути в межі від 1 до 12")
+            raise ValueError("The month must be between 1 and 12")
 
         if not 1 <= day <= Date.days_in_month(month, year):
-            raise ValueError(f"Неправильний день в місяці {month} у році {year}")
+            raise ValueError(f"Wrong day of the month {month} in the year {year}")
 
         self._day = day
         self._month = month
@@ -40,14 +40,14 @@ class Date:
     @staticmethod
     def days_in_month(month, year):
         """
-        Він повертає кіл-ть днів у даному місяці з урахуванням викосного року
+        It returns the number of days in a given month, taking into account the lean year
 
-        Параметри:
-            month (int): місяць
-            year (int): рік
+        Parameters:
+            month (int): month
+            year (int): year
 
         return:
-            int кіл-ть днів
+            int number of days
         """
         if month == 2:
             return 29 if Date.is_leap_year_static(year) else 28
@@ -58,35 +58,35 @@ class Date:
     @staticmethod
     def is_leap_year_static(year):
         """
-        Перевіряє, чи є рік високосним
+        Checks if the year is a leap year
         """
         return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
 
     def is_leap_year(self):
         """
-        Перевіряє чи є рік об'єкта високосним
+        Checks whether the year of the object is a leap year
 
-        Повертає:
-            True, якщо рік високосний
+        return:
+            True if the year is leap year
         """
         return Date.is_leap_year_static(self._year)
 
     def iso_format(self):
         """
-        Перевіряє дату у форматі YYYY-MM-DD
+        Checks the date in the format YYYY-MM-DD
 
 
         return:
-            дата в форматі ISO
+            date in ISO format
         """
         return f"{self._year:04d}-{self._month:02d}-{self._day:02d}"
 
     def day_of_year(self):
         """
-        Переверіє порядковий номер дня в році ( от 1 до 365/366)
+        Checks the sequential number of the day in the year (from 1 to 365/366)
 
         return:
-            номер дня в році
+            day number in the year
         """
         days = 0
         for m in range(1, self._month):
@@ -95,37 +95,37 @@ class Date:
 
     def __str__(self):
         """
-        Повертає строкове значення дати
+        Returns a string value of the date
 
         return:
-             Формат YYYY-MM-DD
+             Format YYYY-MM-DD
         """
         return f"{self._day:02d}-{self._month:02d}-{self._year:04d}"
 
     def __eq__(self, other):
         """
-        Перевіряє на рівність дві дати
+        Checks for equality of two dates
         """
         return (self._day, self._month, self._year) == (other._day, other._month, other._year)
 
     def __lt__(self, other):
         """
-        Перевіріє чи менша поточна дата іншій
+        Check if the current date is less than another date
         """
         return (self._day, self._month, self._year) < (other._day, other._month, other._year)
 
     def __gt__(self, other):
         """
-        Перевіряє чи більша поточна дата за іншу
+        Checks whether the current date is greater than another
         """
         return (self._day, self._month, self._year) > (other._day, other._month, other._year)
 
     def __sub__(self, other):
         """
-        Обчислює різницю між двома датами в днях
+        Calculates the difference between two dates in days
 
         return:
-            кількість днів різниці
+            number of days of difference
         """
         from datetime import date
         d1 = date(self._year, self._month, self._day)
@@ -139,7 +139,7 @@ if __name__ == "__main__":
         d2 = Date(2000, 2, 29)
         d_invalid = Date(1999, 4, 31)
     except (ValueError, TypeError) as e:
-        print(f"Помилка при створенні дати: {e}")
+        print(f"Error creating a date: {e}")
 
     print(d1)
     print(d2.iso_format())
