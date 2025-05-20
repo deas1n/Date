@@ -1,3 +1,5 @@
+from datetime import date
+
 class Date:
     """
     Це клас для представлення та роботи з календарною датою
@@ -127,7 +129,7 @@ class Date:
         return:
             кількість днів різниці
         """
-        from datetime import date
+
         d1 = date(self._year, self._month, self._day)
         d2 = date(other._year, other._month, other._day)
         return abs(d1 - d2).days
